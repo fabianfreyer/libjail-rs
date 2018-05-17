@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["jail_getid","Get the `jid` of a jail given the name."],["jail_getname","Get the name of a jail given the jid"]],"mod":[["process",""]]});
