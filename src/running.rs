@@ -7,6 +7,7 @@ use StoppedJail;
 use std::collections::HashMap;
 use std::net;
 use std::path;
+use std::thread;
 
 /// Represents a running jail.
 #[derive(Clone, PartialEq, PartialOrd, Eq, Ord, Debug, Hash)]
@@ -353,7 +354,13 @@ impl RunningJail {
     /// # running.kill();
     /// ```
     pub fn restart(self: RunningJail) -> Result<RunningJail, JailError> {
+        let jid = self.jid;
         let stopped = self.stop()?;
+
+        while param::get(jid, "dying").is_ok() {
+            thread::yield_now();
+        }
+
         stopped.start()
     }
 
